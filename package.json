@@ -1,17 +1,17 @@
 {
-  "name": "eslint-plugin-nestjs",
-  "version": "0.0.0",
+  "name": "eslint-plugin-tsc",
+  "version": "0.0.0-dev",
   "license": "MIT",
-  "description": "ESLint rules for nestjs framework",
-  "main": "lib/index.js",
+  "description": "eslint-plugin-tsc",
+  "main": "dist/index.js",
   "typings": "src/index.ts",
   "scripts": {
-    "t": "npm run mocha -- src/**/*.spec.ts",
+    "t": "npm run mocha -- src/*.spec.ts",
     "test": "npm run eslint && npm run tscheck && npm run t",
     "test:r": "npm run mocha -- src/*.spec.ts",
-    "mocha": "node -r ts-node/register node_modules/mocha/bin/_mocha",
+    "mocha": "node -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha --timeout 8000",
     "test:w": "npm run mocha -- --watch-extensions ts --watch src/**/*.spec.ts",
-    "test:d": "node --inspect-brk -r ts-node/register node_modules/mocha/bin/_mocha --no-timeouts src/**/*.spec.ts",
+    "test:d": "node --inspect-brk -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha --no-timeouts src/**/*.spec.ts",
     "tscheck": "echo tscheck... && tsc --noEmit",
     "tscheck:w": "npm run tscheck -- --watch",
     "tsclint": "tsc --noEmit --pretty false --strictNullChecks --forceConsistentCasingInFileNames --noImplicitReturns --noImplicitThis --noUnusedLocals --noUnusedParameters",
@@ -20,77 +20,82 @@
     "eslint:fix": "eslint src --ext \"ts\" --fix",
     "eslint:w": "chokidar \"src/**/*.ts\" --initial -c \"npm run eslint\"",
     "lint:w": "concurrently -- \"npm run tsclint:w\" \"npm run eslint:w\"",
-    "build": "tsc",
-    "clean": "rimraf lib",
-    "prebuild": "npm run clean",
+    "semantic-release": "node -r ts-node/register/transpile-only node_modules/semantic-release/bin/semantic-release.js",
     "prepublishOnly": "npm run build",
-    "semantic-release": "semantic-release",
-    "setup": "npm i -g commitizen standard-version semantic-release-cli",
+    "build": "tsc",
+    "prebuild": "npm run clean",
+    "clean": "rimraf dist",
     "commit": "git-cz"
   },
   "dependencies": {
-    "tslib": "^1.8.1"
+    "tslib": "^1.9.1"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^1.0.0",
-    "@semantic-release/git": "^2.0.1",
-    "@semantic-release/npm": "^2.5.0",
-    "@types/estree": "0.0.38",
-    "@types/mocha": "^2.2.45",
-    "@types/node": "^8.5.2",
+    "@semantic-release/changelog": "^2.0.2",
+    "@semantic-release/git": "^5.0.0",
+    "@semantic-release/npm": "^3.2.5",
+    "@types/eslint": "^4.16.2",
+    "@types/mocha": "^5.2.0",
+    "@types/node": "^10.1.2",
     "chokidar-cli": "^1.2.0",
     "concurrently": "^3.5.1",
-    "cz-conventional-changelog": "^2.1.0",
-    "eslint": "^4.14.0",
-    "eslint-plugin-eslint-plugin": "^1.2.0",
-    "eslint-plugin-import": "^2.8.0",
+    "conventional-changelog-eslint": "^1.0.9",
+    "cz-adapter-eslint": "^0.1.2",
+    "eslint": "^4.19.1",
+    "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-tslint": "^2.1.0",
-    "eslint-plugin-typescript": "^0.8.1",
-    "eslint-plugin-unicorn": "^3.0.1",
-    "mocha": "^4.1.0",
+    "eslint-plugin-typescript": "^0.12.0",
+    "eslint-plugin-unicorn": "^4.0.3",
+    "mocha": "^5.2.0",
     "rimraf": "^2.6.2",
-    "semantic-release": "^11.0.2",
-    "ts-node": "^4.1.0",
-    "tslint": "^5.8.0",
-    "typescript": "^2.6.2",
-    "typescript-eslint-parser": "^11.0.0"
-  },
-  "directories": {
-    "lib": "lib",
-    "doc": "docs"
+    "semantic-release": "^15.4.1",
+    "ts-node": "^6.0.3",
+    "tslint": "^5.10.0",
+    "tslint-clean-code": "^0.2.7",
+    "typescript": "2.8.3",
+    "typescript-eslint-parser": "^15.0.0"
   },
   "engines": {
+    "node": ">=6",
     "npm": ">=3"
   },
-  "keywords": [
-    "eslint-plugin"
-  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unlight/eslint-plugin-tsc.git"
+  },
+  "keywords": [],
   "release": {
+    "generateNotes": {
+      "preset": "eslint"
+    },
+    "analyzeCommits": {
+      "preset": "eslint"
+    },
     "verifyConditions": [
       "@semantic-release/changelog",
-      "@semantic-release/git",
-      "@semantic-release/npm"
+      "@semantic-release/github",
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ],
+    "prepare": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git"
     ],
     "publish": [
-      {
-        "path": "@semantic-release/changelog",
-        "changelogFile": "CHANGELOG.md"
-      },
-      "@semantic-release/git",
-      "@semantic-release/npm"
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ],
+    "success": [
+      "@semantic-release/github"
+    ],
+    "fail": [
+      "@semantic-release/github"
     ]
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "./node_modules/cz-adapter-eslint"
     }
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/unlight/eslint-plugin-nestjs.git"
-  },
-  "bugs": {
-    "url": "https://github.com/unlight/eslint-plugin-nestjs/issues"
-  },
-  "homepage": "https://github.com/unlight/eslint-plugin-nestjs#readme"
+  }
 }

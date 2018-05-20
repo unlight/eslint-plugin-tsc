@@ -1,21 +1,5 @@
 # eslint-plugin-tsc
-TypeScript Compiler has various [linting options](http://www.typescriptlang.org/docs/handbook/compiler-options.html)
-* allowUnreachableCode
-* allowUnusedLabels
-* forceConsistentCasingInFileNames
-* noFallthroughCasesInSwitch
-* noImplicitAny
-* noImplicitReturns
-* noImplicitThis
-* noStrictGenericChecks
-* noUnusedLocals
-* noUnusedParameters
-* strictFunctionTypes
-* strictPropertyInitialization
-* strictNullChecks
-* suppressExcessPropertyErrors
-* suppressImplicitAnyIndexErrors
-
+Wraps a TypeScript compiler checks
 
 ## INSTALL
 ```
@@ -35,6 +19,24 @@ plugin:tsc/recommended
 3. [Configure rules](https://eslint.org/docs/user-guide/configuring#configuring-rules)
 
 ## RULES
+
+## TODO
+TypeScript Compiler has various [linting options](http://www.typescriptlang.org/docs/handbook/compiler-options.html)
+* allowUnreachableCode
+* allowUnusedLabels
+* forceConsistentCasingInFileNames
+* noFallthroughCasesInSwitch
+* noImplicitAny
+* noImplicitReturns
+* noImplicitThis
+* noStrictGenericChecks
+* noUnusedLocals
+* noUnusedParameters
+* strictFunctionTypes
+* strictPropertyInitialization
+* strictNullChecks
+* suppressExcessPropertyErrors
+* suppressImplicitAnyIndexErrors
 
 ## USEFUL LINKS
 * https://astexplorer.net/

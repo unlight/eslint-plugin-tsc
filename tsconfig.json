@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2015",
     "module": "commonjs",
     "moduleResolution": "node",
     "importHelpers": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "declaration": false,
-    "outDir": "lib",
+    "outDir": "dist",
     "pretty": false,
     "removeComments": false,
     "inlineSourceMap": true,
     "lib": [
-      "es2017"
+      "es2015"
     ]
   },
   "include": [

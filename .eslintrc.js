@@ -1,5 +1,7 @@
-const tslintRulesRecommended = require('tslint/lib/configs/recommended').rules;
-const tslintRules = Object.assign({}, tslintRulesRecommended, {
+const tslintRules = require('tslint/lib/configs/recommended').rules;
+const cleanCodeRules = require('tslint-clean-code/recommended_ruleset').rules;
+const tslintConfigRulesDirectory = ["node_modules/tslint/lib/rules", "node_modules/tslint-clean-code/dist/src"];
+const tslintConfigRules = Object.assign({}, tslintRules, cleanCodeRules, {
     "member-access": false,
     "ordered-imports": false,
     "quotemark": false,
@@ -16,6 +18,8 @@ const tslintRules = Object.assign({}, tslintRulesRecommended, {
     "interface-over-type-literal": false,
     "align": false,
     "trailing-comma": false,
+    "typedef": false,
+    "newline-before-return": false,
 });
 
 module.exports = {
@@ -27,7 +31,6 @@ module.exports = {
     "extends": [
         "eslint:recommended",
         "plugin:unicorn/recommended",
-        "plugin:eslint-plugin/recommended",
     ],
     "parser": "typescript-eslint-parser",
     "parserOptions": {
@@ -39,7 +42,6 @@ module.exports = {
         "typescript",
         "import",
         "tslint",
-        "eslint-plugin",
     ],
     "rules": {
         "no-undef": 0,
@@ -47,8 +49,8 @@ module.exports = {
         "indent": 0,
         "unicorn/import-index": 0,
         "tslint/config": [1, {
-            rules: tslintRules,
-            rulesDirectory: ["node_modules/tslint/lib/rules"],
+            rules: tslintConfigRules,
+            rulesDirectory: tslintConfigRulesDirectory,
         }],
         "import/newline-after-import": 0,
         "import/no-duplicates": 1,
