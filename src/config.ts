@@ -5,8 +5,6 @@ import noop = require('1-liners/noop');
 
 export function create(context: Rule.RuleContext) {
 
-    // check for null
-    // configFile is required
     const { compilerOptions, configFile } = context.options[0] || { compilerOptions: {}, configFile: undefined };
     const program: ts.Program = getProgram({ configFile, compilerOptions });
 
@@ -20,9 +18,10 @@ export function create(context: Rule.RuleContext) {
     diagnostics.forEach(diagnostic => {
         if (diagnostic.file) {
             const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
+            const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
             context.report({
+                message,
                 loc: { line: line + 1, column: character },
-                message: diagnostic.messageText,
                 messageId: undefined
             });
         }
