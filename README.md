@@ -12,6 +12,12 @@ Configure it in [your configuration file](https://eslint.org/docs/user-guide/con
 ```
 tsc
 ```
+2. Add rule to `rules` section, e.g.
+```
+"tsc/config": [1, {
+    configFile: "tsconfig.json"
+}]
+```
 
 ## RULES
 * `tsc/config` Wraps a TypeScript compiler checks  

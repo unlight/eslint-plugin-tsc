@@ -3,8 +3,10 @@ import { Rule } from 'eslint';
 import { getProgram } from './program';
 import noop = require('1-liners/noop');
 
-export function config(context: Rule.RuleContext) {
+export function create(context: Rule.RuleContext) {
 
+    // check for null
+    // configFile is required
     const { compilerOptions, configFile } = context.options[0] || { compilerOptions: {}, configFile: undefined };
     const program: ts.Program = getProgram({ configFile, compilerOptions });
 
@@ -28,3 +30,29 @@ export function config(context: Rule.RuleContext) {
 
     return {};
 }
+
+export const config = {
+    create,
+    meta: {
+        docs: {
+            description: 'Wraps a TypeScript compiler checks',
+            category: 'TypeScript',
+        },
+        schema: [
+            {
+                type: 'object',
+                additionalProperties: false,
+                required: ['configFile'],
+                properties: {
+                    configFile: {
+                        type: 'string'
+                    },
+                    compilerOptions: {
+                        type: 'object',
+                        additionalProperties: true,
+                    },
+                },
+            },
+        ],
+    },
+};
