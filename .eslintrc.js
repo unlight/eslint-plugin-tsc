@@ -3,7 +3,7 @@ const tslintConfigRulesDirectory = [
     'node_modules/tslint-clean-code/dist/src',
 ];
 const tslintConfigRules = Object.assign({},
-    // require('tslint/lib/configs/recommended').rules,
+    require('tslint/lib/configs/recommended').rules,
     // require('tslint-clean-code/recommended_ruleset').rules,
     {
         'member-access': false,

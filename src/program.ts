@@ -8,13 +8,6 @@ type CreateProgramOptions = {
     compilerOptions?: ts.CompilerOptions;
 };
 
-const diagnosticsCompilerOptions: ts.CompilerOptions = {
-    noEmit: true,
-    sourceMap: false,
-    inlineSources: false,
-    inlineSourceMap: false,
-};
-
 export const getProgram = (() => {
     let program: ts.Program;
     return function getProgram({ configFile, compilerOptions }: CreateProgramOptions) {
@@ -29,10 +22,14 @@ export function createProgram({ configFile, compilerOptions, projectDirectory }:
     const config = ts.readConfigFile(configFile, ts.sys.readFile);
     if (config.error) {
         throw new Error(ts.formatDiagnostics([config.error], {
-            getCanonicalFileName: fn => fn,
+            getCanonicalFileName: file => file,
             getCurrentDirectory: process.cwd,
             getNewLine: () => '\n',
         }));
+    }
+    if (config.config) {
+        delete config.config.include;
+        delete config.config.exclude;
     }
     const parseConfigHost: ts.ParseConfigHost = {
         fileExists: fs.existsSync,
@@ -46,7 +43,13 @@ export function createProgram({ configFile, compilerOptions, projectDirectory }:
     if (!compilerOptions) {
         compilerOptions = {};
     }
-    const resultCompilerOptions = { ...compilerOptions, ...diagnosticsCompilerOptions };
+    const resultCompilerOptions: ts.CompilerOptions = {
+        ...compilerOptions,
+        noEmit: true,
+        sourceMap: false,
+        inlineSources: false,
+        inlineSourceMap: false,
+    };
     const parsed = ts.parseJsonConfigFileContent(config.config, parseConfigHost, path.resolve(projectDirectory), resultCompilerOptions);
     if (parsed.errors) {
         // ignore warnings and 'TS18003: No inputs were found in config file ...'
