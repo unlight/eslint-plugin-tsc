@@ -27,8 +27,7 @@
     "commit": "git-cz"
   },
   "dependencies": {
-    "1-liners": "^0.4.0",
-    "tslib": "^1.9.1"
+    "1-liners": "^0.4.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^2.0.2",
