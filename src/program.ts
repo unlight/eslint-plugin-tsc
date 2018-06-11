@@ -15,6 +15,16 @@ const diagnosticsCompilerOptions: ts.CompilerOptions = {
     inlineSourceMap: false,
 };
 
+export const getProgram = (() => {
+    let program: ts.Program;
+    return function getProgram({ configFile, compilerOptions }: CreateProgramOptions) {
+        if (!program) {
+            program = createProgram({ configFile, compilerOptions });
+        }
+        return program;
+    };
+})();
+
 export function createProgram({ configFile, compilerOptions, projectDirectory }: CreateProgramOptions): ts.Program {
     const config = ts.readConfigFile(configFile, ts.sys.readFile);
     if (config.error) {

@@ -1,13 +1,13 @@
 import * as ts from 'typescript';
 import { Rule } from 'eslint';
-import { createProgram } from './program';
+import { getProgram } from './program';
 import noop = require('1-liners/noop');
 import flatMap = require('1-liners/flatMap');
 
 export function create(context: Rule.RuleContext) {
 
     const { compilerOptions, configFile } = context.options[0] || { compilerOptions: {}, configFile: null };
-    const program: ts.Program = createProgram({ configFile, compilerOptions });
+    const program: ts.Program = getProgram({ configFile, compilerOptions });
 
     // TODO: Handle ts.getPreEmitDiagnostics(program) result
 
