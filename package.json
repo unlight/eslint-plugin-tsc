@@ -9,7 +9,7 @@
     "t": "npm run mocha -- src/*.spec.ts",
     "test": "npm run eslint && npm run tscheck && npm run t",
     "test:r": "npm run mocha -- src/*.spec.ts",
-    "mocha": "node -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha --timeout 8000",
+    "mocha": "node -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha",
     "test:w": "npm run mocha -- --watch-extensions ts --watch src/**/*.spec.ts",
     "test:d": "node --inspect-brk -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha --no-timeouts src/**/*.spec.ts",
     "tscheck": "echo tscheck... && tsc --noEmit",
@@ -19,8 +19,7 @@
     "eslint": "eslint src --ext ts",
     "eslint:fix": "eslint src --ext \"ts\" --fix",
     "eslint:w": "chokidar \"src/**/*.ts\" --initial -c \"npm run eslint\"",
-    "lint:w": "concurrently -- \"npm run tsclint:w\" \"npm run eslint:w\"",
-    "semantic-release": "node -r ts-node/register/transpile-only node_modules/semantic-release/bin/semantic-release.js",
+    "semantic-release": "semantic-release",
     "prepublishOnly": "npm run build",
     "build": "tsc",
     "prebuild": "npm run clean",
@@ -28,6 +27,7 @@
     "commit": "git-cz"
   },
   "dependencies": {
+    "1-liners": "^0.4.0",
     "tslib": "^1.9.1"
   },
   "devDependencies": {
@@ -38,7 +38,6 @@
     "@types/mocha": "^5.2.0",
     "@types/node": "^10.1.2",
     "chokidar-cli": "^1.2.0",
-    "concurrently": "^3.5.1",
     "conventional-changelog-eslint": "^1.0.9",
     "cz-adapter-eslint": "^0.1.2",
     "eslint": "^4.19.1",

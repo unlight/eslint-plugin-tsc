@@ -12,13 +12,14 @@ Configure it in [your configuration file](https://eslint.org/docs/user-guide/con
 ```
 tsc
 ```
-2. Add to `extends` section (optional):
-```
-plugin:tsc/recommended
-```
-3. [Configure rules](https://eslint.org/docs/user-guide/configuring#configuring-rules)
 
 ## RULES
+* `tsc/config` Wraps a TypeScript compiler checks  
+  Configuration `{ configFile: string }`  
+  `configFile` path to `tsconfig.json` file
+
+## CHANGELOG
+See [CHANGELOG.md](CHANGELOG.md)
 
 ## TODO
 TypeScript Compiler has various [linting options](http://www.typescriptlang.org/docs/handbook/compiler-options.html)
@@ -40,6 +41,3 @@ TypeScript Compiler has various [linting options](http://www.typescriptlang.org/
 
 ## USEFUL LINKS
 * https://astexplorer.net/
-
-## CHANGELOG
-See [CHANGELOG.md](CHANGELOG.md)
