@@ -1,5 +1,6 @@
 import { rules } from './index';
 import { RuleTester } from 'eslint';
+import { resolve } from 'path';
 
 const ruleTester = new RuleTester({
     parser: 'typescript-eslint-parser',
@@ -10,21 +11,21 @@ const ruleTester = new RuleTester({
     },
 });
 
-ruleTester.run('tests', rules.config, {
+ruleTester.run('tests', rules.config as any, {
     invalid: [
         {
-            filename: 'test-project/source.ts',
+            filename: resolve('test-project/source.ts'),
             code: `// source of test-project/source.ts`,
             options: [{ configFile: 'test-project/tsconfig.json' }],
             errors: [
-                { message: 'Type \'1\' is not assignable to type \'string\'.', line: 1, column: 7 },
-                { message: 'Type \'"foo"\' is not assignable to type \'number\'.', line: 2, column: 7 },
+                { message: 'Type \'1\' is not assignable to type \'string\'.', line: 2, column: 7 },
+                { message: 'Type \'"foo"\' is not assignable to type \'number\'.', line: 3, column: 7 },
             ]
         },
     ],
     valid: [
         {
-            filename: 'test-project/valid.ts',
+            filename: resolve('test-project/valid.ts'),
             code: `// source of test-project/valid.ts`,
             options: [{ configFile: 'test-project/tsconfig.json' }],
         },

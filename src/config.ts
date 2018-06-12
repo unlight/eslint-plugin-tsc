@@ -1,14 +1,15 @@
 import * as ts from 'typescript';
 import { Rule } from 'eslint';
-import { getProgram } from './program';
+import { getProgram, createProgram } from './program';
 import noop = require('1-liners/noop');
 
 export function create(context: Rule.RuleContext) {
 
-    const { compilerOptions, configFile } = context.options[0] || { compilerOptions: {}, configFile: undefined };
-    const program: ts.Program = getProgram({ configFile, compilerOptions });
-
     const fileName = context.getFilename();
+    const { compilerOptions, configFile } = context.options[0] || { compilerOptions: {}, configFile: undefined };
+    const files = [fileName];
+    const program = createProgram({ compilerOptions, configFile, files });
+
     const sourceFile = program.getSourceFile(fileName);
     const diagnostics: ReadonlyArray<ts.Diagnostic> = [
         ...program.getSemanticDiagnostics(sourceFile),

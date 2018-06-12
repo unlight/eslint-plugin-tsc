@@ -6,6 +6,7 @@ type CreateProgramOptions = {
     configFile: string;
     projectDirectory?: string;
     compilerOptions?: ts.CompilerOptions;
+    files?: string[];
 };
 
 export const getProgram = (() => {
@@ -18,7 +19,7 @@ export const getProgram = (() => {
     };
 })();
 
-export function createProgram({ configFile, compilerOptions, projectDirectory }: CreateProgramOptions): ts.Program {
+export function createProgram({ configFile, compilerOptions, files, projectDirectory }: CreateProgramOptions): ts.Program {
     const config = ts.readConfigFile(configFile, ts.sys.readFile);
     if (config.error) {
         throw new Error(ts.formatDiagnostics([config.error], {
@@ -30,6 +31,7 @@ export function createProgram({ configFile, compilerOptions, projectDirectory }:
     if (config.config) {
         delete config.config.include;
         delete config.config.exclude;
+        config.config.files = files;
     }
     const parseConfigHost: ts.ParseConfigHost = {
         fileExists: fs.existsSync,
@@ -46,6 +48,7 @@ export function createProgram({ configFile, compilerOptions, projectDirectory }:
     const resultCompilerOptions: ts.CompilerOptions = {
         ...compilerOptions,
         noEmit: true,
+        skipLibCheck: true,
         sourceMap: false,
         inlineSources: false,
         inlineSourceMap: false,
