@@ -1,21 +1,23 @@
 import * as ts from 'typescript';
 import { Rule } from 'eslint';
-import { getProgram, createProgram } from './program';
+import { createService } from './service';
 import noop = require('1-liners/noop');
+
+let service: ReturnType<typeof createService>;
 
 export function create(context: Rule.RuleContext) {
 
-    const fileName = context.getFilename();
     const { compilerOptions, configFile } = context.options[0] || { compilerOptions: {}, configFile: undefined };
-    const files = [fileName];
-    const program = createProgram({ compilerOptions, configFile, files });
+    if (!service) {
+        service = createService({ compilerOptions, configFile });
+    }
 
-    const sourceFile = program.getSourceFile(fileName);
-    const diagnostics: ReadonlyArray<ts.Diagnostic> = [
-        ...program.getSemanticDiagnostics(sourceFile),
-        ...program.getSyntacticDiagnostics(sourceFile),
-    ];
+    const fileName = context.getFilename();
+    const fileContent = context.getSourceCode().text;
 
+    service.update({ fileName, fileContent });
+
+    const diagnostics: ReadonlyArray<ts.Diagnostic> = service.getDiagnostics(fileName);
     diagnostics.forEach(diagnostic => {
         if (diagnostic.file) {
             const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
