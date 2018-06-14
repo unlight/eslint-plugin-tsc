@@ -15,8 +15,8 @@ const ruleTester = new RuleTester({
 ruleTester.run('tests', rules.config as any, {
     invalid: [
         {
-            filename: resolve('test-project/source.ts'),
-            code: readFileSync('test-project/source.ts').toString(),
+            filename: resolve('test-project/errors.ts'),
+            code: readFileSync('test-project/errors.ts').toString(),
             options: [{ configFile: 'test-project/tsconfig.json' }],
             errors: [
                 { message: 'Type \'1\' is not assignable to type \'string\'.', line: 2, column: 7 },
@@ -43,6 +43,12 @@ ruleTester.run('tests', rules.config as any, {
         {
             filename: resolve('test-project/decorator.ts'),
             code: readFileSync('test-project/decorator.ts').toString(),
+            options: [{ configFile: 'test-project/tsconfig.json' }],
+        },
+
+        {
+            filename: resolve('test-project/global-types.ts'),
+            code: readFileSync('test-project/global-types.ts').toString(),
             options: [{ configFile: 'test-project/tsconfig.json' }],
         },
     ],

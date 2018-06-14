@@ -21,8 +21,9 @@ tsc
 
 ## RULES
 * `tsc/config` Wraps a TypeScript compiler checks  
-  Configuration `{ configFile: string }`  
-  `configFile` path to `tsconfig.json` file
+  Configuration `{ configFile: string, compilerOptions?: ts.CompilerOptions }`  
+  `configFile` path to `tsconfig.json` file  (it's better to specify an absolute path)  
+  `compilerOptions` ability to override compilerOptions defined in config file
 
 ## CHANGELOG
 See [CHANGELOG.md](CHANGELOG.md)

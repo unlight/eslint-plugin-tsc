@@ -46,13 +46,14 @@ export function createService({ compilerOptions, configFile }: createServiceOpti
         getScriptVersion: (fileName) => {
             return files[fileName] && String(files[fileName].version);
         },
-        getScriptSnapshot: (fileName) => {
+        getScriptSnapshot(fileName: string) {
             let fileRef = files[fileName];
             if (!fileRef) {
                 files[fileName] = fileRef = { version: 0, snapshot: undefined };
             }
             if (fileRef.snapshot === undefined) {
-                fileRef.snapshot = ts.ScriptSnapshot.fromString(readFileSync(fileName, 'utf8'));
+                const data = this.readFile(fileName);
+                fileRef.snapshot = ts.ScriptSnapshot.fromString(data);
             }
             return fileRef.snapshot;
         },
@@ -94,9 +95,9 @@ export function createService({ compilerOptions, configFile }: createServiceOpti
             }
             fileRef.snapshot = ts.ScriptSnapshot.fromString(fileContent);
             fileRef.version++;
-            // Clear cache
-            fileExistsCache[fileName] = undefined;
-            readFileCache[fileName] = undefined;
+
+            fileExistsCache[fileName] = true;
+            readFileCache[fileName] = fileContent;
         },
         getDiagnostics(fileName: string) {
             const program = service.getProgram();
