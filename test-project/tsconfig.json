@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "importHelpers": true,
     "module": "commonjs",
     "moduleResolution": "node",
+    "experimentalDecorators": true,
     "strict": true,
     "lib": ["es2017", "dom"]
   }

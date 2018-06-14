@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import { dirname, resolve } from 'path';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 
 type createServiceOptions = {
     configFile: string;
@@ -34,9 +34,15 @@ export function createService({ compilerOptions, configFile }: createServiceOpti
         files[fileName] = { version: 0, snapshot: ts.ScriptSnapshot.fromString(readFileSync(fileName, 'utf8')) };
     });
 
+    // Caches
+    const fileExistsCache = Object.create(null);
+    const readFileCache = Object.create(null);
+
     // Create the language service host to allow the LS to communicate with the host
     const servicesHost: ts.LanguageServiceHost = {
-        getScriptFileNames: () => Object.keys(files),
+        getScriptFileNames: () => {
+            return Object.keys(files);
+        },
         getScriptVersion: (fileName) => {
             return files[fileName] && String(files[fileName].version);
         },
@@ -56,8 +62,25 @@ export function createService({ compilerOptions, configFile }: createServiceOpti
             return ts.getDefaultLibFileName(options);
         },
         fileExists: (file) => {
-            return ts.sys.fileExists(file);
+            let result = fileExistsCache[file];
+            if (result === undefined) {
+                fileExistsCache[file] = result = existsSync(file);
+            }
+            return result;
         },
+        readFile: (file) => {
+            let result = readFileCache[file];
+            if (result === undefined) {
+                readFileCache[file] = result = readFileSync(file, 'utf8');
+            }
+            return result;
+        },
+        getDirectories: (directory) => {
+            if (existsSync(directory)) {
+                return ts.sys.getDirectories(directory);
+            }
+            return [];
+        }
     };
 
     // Create the language service files
@@ -71,6 +94,9 @@ export function createService({ compilerOptions, configFile }: createServiceOpti
             }
             fileRef.snapshot = ts.ScriptSnapshot.fromString(fileContent);
             fileRef.version++;
+            // Clear cache
+            fileExistsCache[fileName] = undefined;
+            readFileCache[fileName] = undefined;
         },
         getDiagnostics(fileName: string) {
             const program = service.getProgram();
@@ -108,13 +134,3 @@ function toEnum(collection, value) {
     }
     return result;
 }
-
-// function trace(name: string, fn: Function) {
-//     return function() {
-//         if (name === 'getScriptFileNames') {
-//             debugger;
-//         }
-//         console.log(name, arguments);
-//         return fn.apply(this, arguments);
-//     };
-// }
