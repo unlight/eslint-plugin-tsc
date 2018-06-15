@@ -1,2 +1,2 @@
-declare const deco: Function;
+declare const deco: any;
 @deco() class Target {}

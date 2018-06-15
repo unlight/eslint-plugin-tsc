@@ -50,6 +50,9 @@ export function createService({ compilerOptions, configFile }: createServiceOpti
             let fileRef = files[fileName];
             if (!fileRef) {
                 files[fileName] = fileRef = { version: 0, snapshot: undefined };
+                if (fileName === 'lib.d.ts') {
+                    fileName = require.resolve('typescript/lib/lib.d.ts');
+                }
             }
             if (fileRef.snapshot === undefined) {
                 const data = this.readFile(fileName);
@@ -106,7 +109,8 @@ export function createService({ compilerOptions, configFile }: createServiceOpti
                 ...program.getSyntacticDiagnostics(sourceFile),
                 ...program.getSemanticDiagnostics(sourceFile),
             ];
-        }
+        },
+        getProgram: () => service.getProgram(),
     };
 }
 
@@ -126,12 +130,15 @@ function normalizeCompilerOptions(options: ts.CompilerOptions = {}) {
     return options;
 }
 
-function toEnum(collection, value) {
+function toEnum(collection: any, value: any) {
+    let result = value;
     const valueLower = String(value).toLowerCase();
     const key = Object.keys(collection).find(value => String(value).toLowerCase() === valueLower);
-    let result = Number(collection[key]);
-    if (Number.isNaN(result)) {
-        result = value;
+    if (key !== undefined) {
+        result = Number(collection[key]);
+        if (Number.isNaN(result)) {
+            result = value;
+        }
     }
     return result;
 }

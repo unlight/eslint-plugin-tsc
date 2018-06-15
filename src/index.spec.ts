@@ -45,11 +45,15 @@ ruleTester.run('tests', rules.config as any, {
             code: readFileSync('test-project/decorator.ts').toString(),
             options: [{ configFile: 'test-project/tsconfig.json' }],
         },
-
         {
             filename: resolve('test-project/global-types.ts'),
             code: readFileSync('test-project/global-types.ts').toString(),
             options: [{ configFile: 'test-project/tsconfig.json' }],
+        },
+        {
+            filename: resolve('test-project/date.ts'),
+            code: readFileSync('test-project/date.ts').toString(),
+            options: [{ configFile: 'test-project/tsconfig-nolibs.json' }],
         },
     ],
 });

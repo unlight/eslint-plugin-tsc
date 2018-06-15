@@ -1,1 +1,1 @@
-console.log(window, Promise);
+console.log(window, Promise, Date, Function);
