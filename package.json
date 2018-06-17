@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-tsc",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "description": "eslint-plugin-tsc",
   "main": "dist/index.js",
