@@ -28,11 +28,6 @@ export function createService({ compilerOptions, configFile }: createServiceOpti
     });
 
     const files: ts.MapLike<{ version: number, snapshot: ts.IScriptSnapshot | undefined }> = {};
-    // Adding libs
-    (compilationSettings.lib || []).forEach(lib => {
-        const fileName = require.resolve(`typescript/lib/lib.${lib}.d.ts`);
-        files[fileName] = { version: 0, snapshot: ts.ScriptSnapshot.fromString(readFileSync(fileName, 'utf8')) };
-    });
 
     // Caches
     const fileExistsCache = Object.create(null);
@@ -51,7 +46,7 @@ export function createService({ compilerOptions, configFile }: createServiceOpti
             if (!fileRef) {
                 files[fileName] = fileRef = { version: 0, snapshot: undefined };
                 if (fileName === 'lib.d.ts') {
-                    fileName = require.resolve('typescript/lib/lib.d.ts');
+                    fileName = require.resolve('typescript/lib/lib.d.ts').replace(/\\/g, '/');
                 }
             }
             if (fileRef.snapshot === undefined) {
@@ -87,11 +82,18 @@ export function createService({ compilerOptions, configFile }: createServiceOpti
         }
     };
 
+    // Adding libs
+    (compilationSettings.lib || []).forEach(lib => {
+        const fileName = require.resolve(`typescript/lib/lib.${lib}.d.ts`).replace(/\\/g, '/');
+        files[fileName] = { version: 0, snapshot: servicesHost.getScriptSnapshot(fileName) };
+    });
+
     // Create the language service files
     const service = ts.createLanguageService(servicesHost, ts.createDocumentRegistry());
 
     return {
         update({ fileName, fileContent }: { fileName: string, fileContent: string }) {
+            fileName = fileName.replace(/\\/g, '/');
             let fileRef = files[fileName];
             if (!fileRef) {
                 files[fileName] = fileRef = { version: 0, snapshot: undefined };
