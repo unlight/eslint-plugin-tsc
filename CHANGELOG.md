@@ -1,3 +1,15 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/unlight/eslint-plugin-tsc/compare/v1.0.6...v1.1.0) (2018-07-02)
+
+
+### Build
+
+* Increased timeout ([d88cfc4d88832352f5ea07ffac1ef77baa493534](https://github.com/unlight/eslint-plugin-tsc/commit/d88cfc4d88832352f5ea07ffac1ef77baa493534))
+
+### Update
+
+* Externalize typescript service ([4c3e8358cb35145b07cc72ae4f85f8f528b2a9f7](https://github.com/unlight/eslint-plugin-tsc/commit/4c3e8358cb35145b07cc72ae4f85f8f528b2a9f7))
+
 <a name="1.0.6"></a>
 ## [1.0.6](https://github.com/unlight/eslint-plugin-tsc/compare/v1.0.5...v1.0.6) (2018-06-17)
 
