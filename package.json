@@ -6,10 +6,9 @@
   "main": "dist/index.js",
   "typings": "src/index.ts",
   "scripts": {
-    "t": "npm run mocha -- src/*.spec.ts",
-    "test": "npm run eslint && npm run tscheck && npm run t",
+    "test": "npm run eslint && npm run tscheck && npm run test:r",
     "test:r": "npm run mocha -- src/*.spec.ts",
-    "mocha": "node -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha",
+    "mocha": "node -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha --timeout 5000",
     "test:w": "npm run mocha -- --watch-extensions ts --watch src/**/*.spec.ts",
     "test:d": "node --inspect-brk -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha --no-timeouts src/**/*.spec.ts",
     "tscheck": "echo tscheck... && tsc --noEmit",
