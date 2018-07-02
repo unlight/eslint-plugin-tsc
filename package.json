@@ -27,7 +27,8 @@
     "commit": "git-cz"
   },
   "dependencies": {
-    "1-liners": "^0.4.0"
+    "1-liners": "^0.4.0",
+    "typescript-service": "^1.0.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^2.0.2",

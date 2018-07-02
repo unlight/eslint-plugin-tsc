@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import { Rule } from 'eslint';
-import { createService } from './service';
+import { createService } from 'typescript-service';
 import noop = require('1-liners/noop');
 
 let service: ReturnType<typeof createService>;

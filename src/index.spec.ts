@@ -12,6 +12,8 @@ const ruleTester = new RuleTester({
     },
 });
 
+const root = process.cwd();
+
 ruleTester.run('tests', rules.config as any, {
     invalid: [
         {
@@ -26,34 +28,9 @@ ruleTester.run('tests', rules.config as any, {
     ],
     valid: [
         {
-            filename: resolve('test-project/number.ts'),
-            code: readFileSync('test-project/number.ts').toString(),
-            options: [{ configFile: 'test-project/tsconfig.json' }],
-        },
-        {
-            filename: resolve('test-project/builtin.ts'),
-            code: readFileSync('test-project/builtin.ts').toString(),
-            options: [{ configFile: 'test-project/tsconfig.json' }],
-        },
-        {
-            filename: resolve('test-project/types.ts'),
-            code: readFileSync('test-project/types.ts').toString(),
-            options: [{ configFile: 'test-project/tsconfig.json' }],
-        },
-        {
-            filename: resolve('test-project/decorator.ts'),
-            code: readFileSync('test-project/decorator.ts').toString(),
-            options: [{ configFile: 'test-project/tsconfig.json' }],
-        },
-        {
-            filename: resolve('test-project/global-types.ts'),
-            code: readFileSync('test-project/global-types.ts').toString(),
-            options: [{ configFile: 'test-project/tsconfig.json' }],
-        },
-        {
-            filename: resolve('test-project/date.ts'),
-            code: readFileSync('test-project/date.ts').toString(),
-            options: [{ configFile: 'test-project/tsconfig-nolibs.json' }],
-        },
+            filename: resolve('test-project/source.ts'),
+            code: readFileSync('test-project/source.ts').toString(),
+            options: [{ configFile: `${root}/test-project/tsconfig.json` }],
+        }
     ],
 });
