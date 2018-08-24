@@ -1,3 +1,14 @@
+# [1.2.0](https://github.com/unlight/eslint-plugin-tsc/compare/v1.1.0...v1.2.0) (2018-08-24)
+
+
+### Fix
+
+* Removed tslint rules ([fa1928cff1e155a91bef92b9ecf4185a1ccb62e9](https://github.com/unlight/eslint-plugin-tsc/commit/fa1928cff1e155a91bef92b9ecf4185a1ccb62e9))
+
+### Update
+
+* Updated main dependency to latest major version, get rid of eternal cache ([15212407b24df5ec6b0e2592fb249f02d8b8233a](https://github.com/unlight/eslint-plugin-tsc/commit/15212407b24df5ec6b0e2592fb249f02d8b8233a))
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/unlight/eslint-plugin-tsc/compare/v1.0.6...v1.1.0) (2018-07-02)
 
