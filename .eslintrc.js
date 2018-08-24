@@ -1,6 +1,6 @@
 const tslintConfigRulesDirectory = [
     'node_modules/tslint/lib/rules',
-    'node_modules/tslint-clean-code/dist/src',
+    // 'node_modules/tslint-clean-code/dist/src',
 ];
 const tslintConfigRules = Object.assign({},
     require('tslint/lib/configs/recommended').rules,

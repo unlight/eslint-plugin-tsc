@@ -1,7 +1,6 @@
 import * as ts from 'typescript';
 import { Rule } from 'eslint';
 import { createService } from 'typescript-service';
-import noop = require('1-liners/noop');
 
 let service: ReturnType<typeof createService>;
 
@@ -13,11 +12,9 @@ export function create(context: Rule.RuleContext) {
     }
 
     const fileName = context.getFilename();
-    const fileContent = context.getSourceCode().text;
+    const soureText = context.getSourceCode().text;
 
-    service.update({ fileName, fileContent });
-
-    const diagnostics: ReadonlyArray<ts.Diagnostic> = service.getDiagnostics(fileName);
+    const diagnostics = service.getDiagnostics(fileName, soureText);
     diagnostics.forEach(diagnostic => {
         if (diagnostic.file) {
             const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
