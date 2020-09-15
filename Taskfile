@@ -1,0 +1,20 @@
+#!/bin/bash
+PATH="$PWD/node_modules/.bin":$PATH
+set -e
+
+build() {
+    set -x
+    rm -rfv dist
+    cp -rfv src dist
+    cat tsconfig.json | jq 'del(.include, .compilerOptions.outDir)' > dist/tsconfig.json
+    cp -fv README.md LICENSE package.json dist
+    cd dist
+    /usr/bin/find . -name '*.spec.ts' | xargs rm -rvf
+    tsc -p .
+    rm -rvf tsconfig.json
+    /usr/bin/find . -name '*.ts' | xargs rm -rvf
+    cd ..
+    set +x
+}
+
+"$@"

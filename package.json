@@ -2,28 +2,30 @@
   "name": "eslint-plugin-tsc",
   "version": "1.2.0",
   "license": "MIT",
-  "description": "eslint-plugin-tsc",
-  "main": "dist/index.js",
-  "typings": "src/index.ts",
+  "description": "Wraps a TypeScript compiler checks",
+  "main": "index.js",
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "eslintplugin",
+    "eslint-rules",
+    "typescript",
+    "typescript-service"
+  ],
   "scripts": {
     "test": "npm run eslint && npm run tscheck && npm run test:r",
-    "test:r": "npm run mocha -- src/*.spec.ts",
-    "mocha": "node -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha --timeout 5000",
-    "test:w": "npm run mocha -- --watch-extensions ts --watch src/**/*.spec.ts",
-    "test:d": "node --inspect-brk -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha --no-timeouts src/**/*.spec.ts",
+    "test:r": "mocha -r ts-node/register/transpile-only --no-timeouts src/**/*.spec.ts",
+    "test:w": "mocha -r ts-node/register/transpile-only --watch-files src/**/*.ts --watch src/**/*.spec.ts",
+    "test:d": "node --inspect-brk -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha --no-timeouts --watch-files src/**/*.ts --watch src/**/*.spec.ts",
     "tscheck": "echo tscheck... && tsc --noEmit",
     "tscheck:w": "npm run tscheck -- --watch",
     "tsclint": "tsc --noEmit --pretty false --strictNullChecks --forceConsistentCasingInFileNames --noImplicitReturns --noImplicitThis --noUnusedLocals --noUnusedParameters",
     "tsclint:w": "npm run tsclint -- --watch",
-    "eslint": "eslint src --ext ts",
-    "eslint:fix": "eslint src --ext \"ts\" --fix",
-    "eslint:w": "chokidar \"src/**/*.ts\" --initial -c \"npm run eslint\"",
-    "semantic-release": "semantic-release",
-    "prepublishOnly": "npm run build && sed -i -e 's/devDependencies/_devDependencies/g' package.json",
-    "build": "tsc",
-    "prebuild": "npm run clean",
-    "clean": "rimraf dist",
-    "commit": "git-cz"
+    "eslint": "node node_modules/eslint/bin/eslint \"src/**/*.{ts,tsx}\"",
+    "eslint:w": "watchexec -w src \"npm run eslint\"",
+    "eslint:fix": "npm run eslint -- --fix",
+    "build": "sh Taskfile build",
+    "prettier:format": "npx prettier src --write"
   },
   "dependencies": {
     "typescript-service": "^2.0.3"
@@ -34,20 +36,17 @@
     "@semantic-release/npm": "^7.0.6",
     "@types/eslint": "^7.2.2",
     "@types/mocha": "^8.0.3",
-    "@types/node": "^14.10.1",
-    "chokidar-cli": "^2.1.0",
-    "conventional-changelog-eslint": "^3.0.8",
-    "cz-adapter-eslint": "^0.3.0",
+    "@types/node": "^14.10.2",
+    "@typescript-eslint/parser": "^4.1.1",
     "eslint": "^7.9.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-typescript": "^0.14.0",
     "eslint-plugin-unicorn": "^21.0.0",
     "mocha": "^8.1.3",
-    "rimraf": "^3.0.2",
+    "prettier": "^2.1.1",
     "semantic-release": "^17.1.1",
     "ts-node": "^9.0.0",
-    "typescript": "4.0.2",
-    "@typescript-eslint/parser": "^4.1.1"
+    "typescript": "^4.0.2",
+    "typescript-service": "^2.0.3",
+    "watchexec-bin": "^1.0.0"
   },
   "engines": {
     "node": ">=12",
@@ -55,41 +54,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/unlight/eslint-plugin-tsc.git"
+    "url": "git+https://github.com/unlight/eslint-plugin-tsc.git"
   },
-  "keywords": [],
-  "release": {
-    "generateNotes": {
-      "preset": "eslint"
-    },
-    "analyzeCommits": {
-      "preset": "eslint"
-    },
-    "verifyConditions": [
-      "@semantic-release/changelog",
-      "@semantic-release/github",
-      "@semantic-release/npm",
-      "@semantic-release/git"
-    ],
-    "prepare": [
-      "@semantic-release/changelog",
-      "@semantic-release/npm",
-      "@semantic-release/git"
-    ],
-    "publish": [
-      "@semantic-release/npm",
-      "@semantic-release/github"
-    ],
-    "success": [
-      "@semantic-release/github"
-    ],
-    "fail": [
-      "@semantic-release/github"
-    ]
+  "bugs": {
+    "url": "https://github.com/unlight/eslint-plugin-tsc/issues"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-adapter-eslint"
-    }
-  }
+  "homepage": "https://github.com/unlight/eslint-plugin-tsc#readme"
 }

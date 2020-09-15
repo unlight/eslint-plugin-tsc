@@ -5,8 +5,10 @@ import { createService } from 'typescript-service';
 let service: ReturnType<typeof createService>;
 
 export function create(context: Rule.RuleContext) {
-
-    const { compilerOptions, configFile } = context.options[0] || { compilerOptions: {}, configFile: undefined };
+    const { compilerOptions, configFile } = context.options[0] || {
+        compilerOptions: {},
+        configFile: undefined,
+    };
     if (!service) {
         service = createService({ compilerOptions, configFile });
     }
@@ -15,14 +17,16 @@ export function create(context: Rule.RuleContext) {
     const soureText = context.getSourceCode().text;
 
     const diagnostics = service.getDiagnostics(fileName, soureText);
-    diagnostics.forEach(diagnostic => {
-        if (diagnostic.file) {
-            const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
+    diagnostics.forEach((diagnostic) => {
+        if (diagnostic.file && diagnostic.start !== undefined) {
+            const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(
+                diagnostic.start,
+            );
             const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
             context.report({
                 message,
                 loc: { line: line + 1, column: character },
-                messageId: undefined
+                messageId: undefined,
             });
         }
     });
@@ -44,7 +48,7 @@ export const config = {
                 required: ['configFile'],
                 properties: {
                     configFile: {
-                        type: 'string'
+                        type: 'string',
                     },
                     compilerOptions: {
                         type: 'object',

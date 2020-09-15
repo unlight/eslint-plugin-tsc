@@ -1,22 +1,28 @@
 {
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es2017",
     "module": "commonjs",
     "moduleResolution": "node",
     "importHelpers": true,
-    "declaration": false,
+    "strict": true,
+    "noImplicitAny": false,
+    "experimentalDecorators": false,
+    "emitDecoratorMetadata": false,
     "outDir": "dist",
-    "pretty": false,
+    "pretty": true,
+    "esModuleInterop": true,
     "removeComments": false,
-    "sourceMap": true,
-    "lib": [
-      "esnext"
-    ]
+    "sourceMap": false,
+    "declaration": false,
+    "declarationMap": false,
+    "skipLibCheck": true,
+    "lib": ["esnext"]
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/**/*.spec.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }

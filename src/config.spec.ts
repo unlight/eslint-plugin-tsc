@@ -1,11 +1,11 @@
-import { rules } from './index';
+import { rules } from '.';
 import { RuleTester } from 'eslint';
 import { resolve } from 'path';
 
 const ruleTester = new RuleTester({
     parser: require.resolve('@typescript-eslint/parser'),
     parserOptions: {
-        ecmaVersion: 2017,
+        ecmaVersion: 2019,
         sourceType: 'module',
         ecmaFeatures: {},
     },
@@ -20,9 +20,17 @@ ruleTester.run('tests', rules.config as any, {
             code: 'test-project/errors.ts',
             options: [{ configFile: 'test-project/tsconfig.json' }],
             errors: [
-                { message: 'Type \'number\' is not assignable to type \'string\'.', line: 2, column: 7 },
-                { message: 'Type \'string\' is not assignable to type \'number\'.', line: 3, column: 7 },
-            ]
+                {
+                    message: "Type 'number' is not assignable to type 'string'.",
+                    line: 2,
+                    column: 7,
+                },
+                {
+                    message: "Type 'string' is not assignable to type 'number'.",
+                    line: 3,
+                    column: 7,
+                },
+            ],
         },
     ],
     valid: [
@@ -30,6 +38,6 @@ ruleTester.run('tests', rules.config as any, {
             filename: resolve('test-project/source.ts'),
             code: 'test-project/source.ts',
             options: [{ configFile: `${root}/test-project/tsconfig.json` }],
-        }
+        },
     ],
 });
