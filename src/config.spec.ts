@@ -3,7 +3,7 @@ import { RuleTester } from 'eslint';
 import { resolve } from 'path';
 
 const ruleTester = new RuleTester({
-    parser: 'typescript-eslint-parser',
+    parser: require.resolve('@typescript-eslint/parser'),
     parserOptions: {
         ecmaVersion: 2017,
         sourceType: 'module',
@@ -20,8 +20,8 @@ ruleTester.run('tests', rules.config as any, {
             code: 'test-project/errors.ts',
             options: [{ configFile: 'test-project/tsconfig.json' }],
             errors: [
-                { message: 'Type \'1\' is not assignable to type \'string\'.', line: 2, column: 7 },
-                { message: 'Type \'"foo"\' is not assignable to type \'number\'.', line: 3, column: 7 },
+                { message: 'Type \'number\' is not assignable to type \'string\'.', line: 2, column: 7 },
+                { message: 'Type \'string\' is not assignable to type \'number\'.', line: 3, column: 7 },
             ]
         },
     ],
