@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/unlight/eslint-plugin-tsc/compare/v1.2.0...v2.0.0) (2020-09-15)
+
+
+### chore
+
+* Upgrade to TypeScript 4 ([5160ae2](https://github.com/unlight/eslint-plugin-tsc/commit/5160ae2c77cf8b5819e3d22ff55db4c3595be014))
+
+
+### BREAKING CHANGES
+
+* Upgrade to TypeScript 4
+
 # [1.2.0](https://github.com/unlight/eslint-plugin-tsc/compare/v1.1.0...v1.2.0) (2018-08-24)
 
 
